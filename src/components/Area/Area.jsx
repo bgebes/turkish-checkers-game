@@ -1,5 +1,5 @@
 import React from 'react';
-import AreaSquare from '../AreaSquare/AreaSquare';
+import Square from '../Square/Square';
 import Numbers from '../Numbers/Numbers';
 import Characters from '../Characters/Characters';
 import { Box, SimpleGrid, Stack } from '@chakra-ui/react';
@@ -15,7 +15,7 @@ function Area() {
         <Box p="4" border="1px">
           <SimpleGrid columns={8} border="1px">
             {all.map((props, i) => {
-              return <AreaSquare key={i} {...props} />;
+              return <Square key={i} {...props} />;
             })}
           </SimpleGrid>
         </Box>
