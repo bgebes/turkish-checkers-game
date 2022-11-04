@@ -1,4 +1,4 @@
-export const mock = [
+export const squaresMock = [
   {
     bgColor: 'white',
     position: {
