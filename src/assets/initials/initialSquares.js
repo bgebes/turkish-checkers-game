@@ -1,514 +1,578 @@
-export const squaresMock = [
+export const initialSquares = [
   {
     bgColor: 'white',
     position: {
       x: 'a',
-      y: '8',
+      y: 8,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'b',
-      y: '8',
+      y: 8,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'c',
-      y: '8',
+      y: 8,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'd',
-      y: '8',
+      y: 8,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'e',
-      y: '8',
+      y: 8,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'f',
-      y: '8',
+      y: 8,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'g',
-      y: '8',
+      y: 8,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'h',
-      y: '8',
+      y: 8,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'a',
-      y: '7',
+      y: 7,
     },
     checker: 'red',
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'b',
-      y: '7',
+      y: 7,
     },
     checker: 'red',
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'c',
-      y: '7',
+      y: 7,
     },
     checker: 'red',
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'd',
-      y: '7',
+      y: 7,
     },
     checker: 'red',
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'e',
-      y: '7',
+      y: 7,
     },
     checker: 'red',
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'f',
-      y: '7',
+      y: 7,
     },
     checker: 'red',
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'g',
-      y: '7',
+      y: 7,
     },
     checker: 'red',
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'h',
-      y: '7',
+      y: 7,
     },
     checker: 'red',
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'a',
-      y: '6',
+      y: 6,
     },
     checker: 'red',
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'b',
-      y: '6',
+      y: 6,
     },
     checker: 'red',
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'c',
-      y: '6',
+      y: 6,
     },
     checker: 'red',
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'd',
-      y: '6',
+      y: 6,
     },
     checker: 'red',
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'e',
-      y: '6',
+      y: 6,
     },
     checker: 'red',
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'f',
-      y: '6',
+      y: 6,
     },
     checker: 'red',
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'g',
-      y: '6',
+      y: 6,
     },
     checker: 'red',
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'h',
-      y: '6',
+      y: 6,
     },
     checker: 'red',
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'a',
-      y: '5',
+      y: 5,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'b',
-      y: '5',
+      y: 5,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'c',
-      y: '5',
+      y: 5,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'd',
-      y: '5',
+      y: 5,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'e',
-      y: '5',
+      y: 5,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'f',
-      y: '5',
+      y: 5,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'g',
-      y: '5',
+      y: 5,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'h',
-      y: '5',
+      y: 5,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'a',
-      y: '4',
+      y: 4,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'b',
-      y: '4',
+      y: 4,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'c',
-      y: '4',
+      y: 4,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'd',
-      y: '4',
+      y: 4,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'e',
-      y: '4',
+      y: 4,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'f',
-      y: '4',
+      y: 4,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'g',
-      y: '4',
+      y: 4,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'h',
-      y: '4',
+      y: 4,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'a',
-      y: '3',
+      y: 3,
     },
     checker: 'blue',
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'b',
-      y: '3',
+      y: 3,
     },
     checker: 'blue',
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'c',
-      y: '3',
+      y: 3,
     },
     checker: 'blue',
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'd',
-      y: '3',
+      y: 3,
     },
     checker: 'blue',
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'e',
-      y: '3',
+      y: 3,
     },
     checker: 'blue',
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'f',
-      y: '3',
+      y: 3,
     },
     checker: 'blue',
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'g',
-      y: '3',
+      y: 3,
     },
     checker: 'blue',
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'h',
-      y: '3',
+      y: 3,
     },
     checker: 'blue',
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'a',
-      y: '2',
+      y: 2,
     },
     checker: 'blue',
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'b',
-      y: '2',
+      y: 2,
     },
     checker: 'blue',
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'c',
-      y: '2',
+      y: 2,
     },
     checker: 'blue',
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'd',
-      y: '2',
+      y: 2,
     },
     checker: 'blue',
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'e',
-      y: '2',
+      y: 2,
     },
     checker: 'blue',
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'f',
-      y: '2',
+      y: 2,
     },
     checker: 'blue',
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'g',
-      y: '2',
+      y: 2,
     },
     checker: 'blue',
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'h',
-      y: '2',
+      y: 2,
     },
     checker: 'blue',
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'a',
-      y: '1',
+      y: 1,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'b',
-      y: '1',
+      y: 1,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'c',
-      y: '1',
+      y: 1,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'd',
-      y: '1',
+      y: 1,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'e',
-      y: '1',
+      y: 1,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'f',
-      y: '1',
+      y: 1,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'gray.400',
     position: {
       x: 'g',
-      y: '1',
+      y: 1,
     },
     checker: null,
+    dama: false,
   },
   {
     bgColor: 'white',
     position: {
       x: 'h',
-      y: '1',
+      y: 1,
     },
     checker: null,
+    dama: false,
   },
 ];

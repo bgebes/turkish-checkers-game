@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { squaresMock } from '../../assets/mocks/squaresMock';
+import { initialSquares } from '../../assets/initials/initialSquares';
 
 export const GameSlice = createSlice({
   name: 'game',
@@ -10,8 +10,8 @@ export const GameSlice = createSlice({
     },
     squares: {
       focused: {},
-      availables: [],
-      all: squaresMock,
+      availabilities: [],
+      all: initialSquares,
     },
     movements: {
       player1: [],
@@ -19,12 +19,16 @@ export const GameSlice = createSlice({
     },
   },
   reducers: {
-    focusSquare: (state, action) => {},
-    handleAvailables: (state, action) => {},
+    focusSquare: (state, action) => {
+      state.squares.focused = { ...action.payload.focused, dama: true };
+    },
+    handleAvailabilities: (state, action) => {
+      state.squares.availabilities = action.payload.availabilities;
+    },
     handleMovement: (state, action) => {},
   },
 });
 
-export const { focusSquare, handleAvailables, handleMovement } =
+export const { focusSquare, handleAvailabilities, handleMovement } =
   GameSlice.actions;
 export default GameSlice.reducer;
