@@ -1,17 +1,33 @@
 import { store } from '../redux/store';
 import { useSelector } from 'react-redux';
-import { focusSquare, handleAvailabilities } from '../redux/Game/GameSlice';
+import {
+  focusSquare,
+  handleAvailabilities,
+  handleMovement,
+} from '../redux/Game/GameSlice';
 
 export const getGameState = () => useSelector((state) => state.game);
 export const getGameStateByStore = () => store.getState().game;
 export const dispatch = store.dispatch;
 
-export const handleClickSquare = (focused) => {
-  dispatch(focusSquare({ focused }));
-  checkAvailables(focused);
+export const handleClickSquare = (clickedSquare) => {
+  if (clickedSquare.checker !== null) {
+    dispatch(focusSquare({ focused: clickedSquare }));
+    checkAvailables({ focused: clickedSquare });
+  } else {
+    const { x, y } = clickedSquare.position;
+    const { focused, availabilities } = getGameStateByStore().squares;
+    const isClickedSquareInArray = availabilities.some(
+      (a, _) => JSON.stringify(a) === JSON.stringify(clickedSquare)
+    );
+
+    if (focused.position && isClickedSquareInArray) {
+      dispatch(handleMovement({ newPosition: { x, y } }));
+    }
+  }
 };
 
-export const checkAvailables = (focused) => {
+export const checkAvailables = ({ focused }) => {
   const Direction = {
     Top: 'Top',
     Bottom: 'Bottom',
@@ -77,7 +93,7 @@ export const checkAvailables = (focused) => {
       }
     }
 
-    return temp;
+    return [...temp];
   }
 
   function getArounds(square, direction) {

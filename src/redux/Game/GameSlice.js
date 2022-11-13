@@ -20,12 +20,33 @@ export const GameSlice = createSlice({
   },
   reducers: {
     focusSquare: (state, action) => {
-      state.squares.focused = { ...action.payload.focused, dama: true };
+      state.squares.focused = action.payload.focused;
     },
     handleAvailabilities: (state, action) => {
       state.squares.availabilities = action.payload.availabilities;
     },
-    handleMovement: (state, action) => {},
+    handleMovement: (state, action) => {
+      const { x, y } = action.payload.newPosition;
+      const { focused } = state.squares;
+
+      const focusedSquare = state.squares.all.find(
+        (s, _) => JSON.stringify(s) == JSON.stringify(focused)
+      );
+
+      const moveSquare = state.squares.all.find(
+        (s, _) => JSON.stringify(s.position) == JSON.stringify({ x, y })
+      );
+
+      moveSquare.checker = focusedSquare.checker;
+      focusedSquare.checker = null;
+      [moveSquare.dama, focusedSquare.dama] = [
+        focusedSquare.dama,
+        moveSquare.dama,
+      ];
+
+      state.squares.focused = {};
+      state.squares.availabilities = [];
+    },
   },
 });
 
