@@ -30,7 +30,7 @@ export const GameSlice = createSlice({
       const { focused } = state.squares;
 
       const focusedSquare = state.squares.all.find(
-        (s, _) => JSON.stringify(s) == JSON.stringify(focused)
+        (s, _) => JSON.stringify(s.position) == JSON.stringify(focused.position)
       );
 
       const moveSquare = state.squares.all.find(

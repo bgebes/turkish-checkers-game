@@ -5,6 +5,7 @@ import {
   handleAvailabilities,
   handleMovement,
 } from '../redux/Game/GameSlice';
+import { getArounds, getAvailabilities, movement } from '../utils/utils';
 
 export const getGameState = () => useSelector((state) => state.game);
 export const getGameStateByStore = () => store.getState().game;
@@ -15,15 +16,9 @@ export const handleClickSquare = (clickedSquare) => {
     dispatch(focusSquare({ focused: clickedSquare }));
     checkAvailables({ focused: clickedSquare });
   } else {
-    const { x, y } = clickedSquare.position;
-    const { focused, availabilities } = getGameStateByStore().squares;
-    const isClickedSquareInArray = availabilities.some(
-      (a, _) => JSON.stringify(a) === JSON.stringify(clickedSquare)
+    movement(clickedSquare, (x, y) =>
+      dispatch(handleMovement({ newPosition: { x, y } }))
     );
-
-    if (focused.position && isClickedSquareInArray) {
-      dispatch(handleMovement({ newPosition: { x, y } }));
-    }
   }
 };
 
@@ -50,93 +45,4 @@ export const checkAvailables = ({ focused }) => {
   ];
 
   dispatch(handleAvailabilities({ availabilities }));
-
-  function getAvailabilities(focused, arounds) {
-    const temp = new Set();
-    const enemyColor = focused.checker === 'red' ? 'blue' : 'red';
-
-    for (let i = 0; i < arounds.length; i++) {
-      const square = arounds[i];
-      const beforeSquare = arounds[i - 1],
-        nextSquare = arounds[i + 1];
-
-      const isBeforeAvailable = beforeSquare && beforeSquare.checker === null;
-      const isNextAvailable = nextSquare && nextSquare.checker === null;
-      const isOnOwnChecker = square.checker === focused.checker;
-      const isOnEnemyChecker = square.checker === enemyColor;
-
-      if (isOnOwnChecker) {
-        break;
-      } else if (square.checker === null && nextSquare) {
-        temp.add(square);
-        break;
-      } else if (
-        !focused.dama &&
-        isOnEnemyChecker &&
-        isBeforeAvailable &&
-        isNextAvailable
-      ) {
-        temp.add(nextSquare);
-      } else if (
-        focused.dama &&
-        isOnEnemyChecker &&
-        isBeforeAvailable &&
-        isNextAvailable
-      ) {
-        arounds
-          .filter((_, j) => j > i)
-          .forEach((subSquare, _) => {
-            if (subSquare.checker == null) {
-              temp.add(subSquare);
-            }
-          });
-      }
-    }
-
-    return [...temp];
-  }
-
-  function getArounds(square, direction) {
-    if (square === undefined) return;
-
-    const charArr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
-    const { all } = getGameStateByStore().squares;
-
-    const nextToSquare = (() => {
-      switch (direction) {
-        case Direction.Left:
-          return all.find(
-            (s) =>
-              s.position.x ===
-                charArr[charArr.indexOf(square.position.x) - 1] &&
-              s.position.y === square.position.y
-          );
-        case Direction.Top:
-          return all.find(
-            (s) =>
-              s.position.x === square.position.x &&
-              s.position.y === square.position.y + 1
-          );
-        case Direction.Right:
-          return all.find(
-            (s) =>
-              s.position.x ===
-                charArr[charArr.indexOf(square.position.x) + 1] &&
-              s.position.y === square.position.y
-          );
-        case Direction.Bottom:
-          return all.find(
-            (s) =>
-              s.position.x === square.position.x &&
-              s.position.y === square.position.y - 1
-          );
-        default:
-          return undefined;
-      }
-    })();
-
-    return nextToSquare
-      ? [nextToSquare, ...getArounds(nextToSquare, direction)]
-      : [];
-  }
 };
