@@ -12,6 +12,13 @@ export const getGameStateByStore = () => store.getState().game;
 export const dispatch = store.dispatch;
 
 export const handleClickSquare = (clickedSquare) => {
+  const { turn } = getGameStateByStore().status;
+
+  const wrongClick1 = turn === 'Blue' && clickedSquare.checker === 'red';
+  const wrongClick2 = turn === 'Red' && clickedSquare.checker === 'blue';
+
+  if (wrongClick1 || wrongClick2) return;
+
   if (clickedSquare.checker !== null) {
     dispatch(focusSquare({ focused: clickedSquare }));
     checkAvailables({ focused: clickedSquare });

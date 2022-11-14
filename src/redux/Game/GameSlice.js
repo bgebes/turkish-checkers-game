@@ -5,18 +5,15 @@ export const GameSlice = createSlice({
   name: 'game',
   initialState: {
     status: {
-      signal: '',
-      turn: {},
+      signal: 'Ready to Play!',
+      turn: 'Blue',
     },
     squares: {
       focused: {},
       availabilities: [],
       all: initialSquares,
     },
-    movements: {
-      player1: [],
-      player2: [],
-    },
+    movements: [],
   },
   reducers: {
     focusSquare: (state, action) => {
@@ -28,9 +25,10 @@ export const GameSlice = createSlice({
     handleMovement: (state, action) => {
       const { x, y } = action.payload.newPosition;
       const { focused } = state.squares;
+      const focusedPosition = focused.position;
 
       const focusedSquare = state.squares.all.find(
-        (s, _) => JSON.stringify(s.position) == JSON.stringify(focused.position)
+        (s, _) => JSON.stringify(s.position) == JSON.stringify(focusedPosition)
       );
 
       const moveSquare = state.squares.all.find(
@@ -44,12 +42,37 @@ export const GameSlice = createSlice({
         moveSquare.dama,
       ];
 
+      const { turn } = state.status;
+
+      state.movements.push({
+        from: { x: focusedPosition.x, y: focusedPosition.y },
+        to: { x, y },
+        author: turn,
+      });
+
+      state.status.turn = turn === 'Blue' ? 'Red' : 'Blue';
+      state.status.signal = `It's your turn ${state.status.turn}!`;
+
       state.squares.focused = {};
       state.squares.availabilities = [];
+    },
+    resetGame: (state, _) => {
+      state.status = {
+        signal: 'Ready to Play!',
+        turn: 'Blue',
+      };
+
+      state.squares = {
+        focused: {},
+        availabilities: [],
+        all: initialSquares,
+      };
+
+      state.movements = [];
     },
   },
 });
 
-export const { focusSquare, handleAvailabilities, handleMovement } =
+export const { focusSquare, handleAvailabilities, handleMovement, resetGame } =
   GameSlice.actions;
 export default GameSlice.reducer;
