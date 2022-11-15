@@ -1,16 +1,11 @@
 import { store } from '../redux/store';
 import { useSelector } from 'react-redux';
+import { focusSquare, handleMovement } from '../redux/Game/GameSlice';
 import {
-  focusSquare,
-  handleAvailabilities,
-  handleMovement,
-  handleArounds,
-} from '../redux/Game/GameSlice';
-import {
-  checkObjectEqualities,
   getArounds,
   getAvailabilities,
   movement,
+  checkObjectEqualities,
 } from '../utils/utils';
 
 export const getGameState = () => useSelector((state) => state.game);
@@ -25,8 +20,13 @@ export const handleClickSquare = (clickedSquare) => {
   if (wrongClick1 || wrongClick2) return;
 
   if (clickedSquare.checker !== null) {
-    store.dispatch(focusSquare({ focused: clickedSquare }));
-    checkAvailables({ focused: clickedSquare });
+    const { arounds, availabilities } = checkAvailables({
+      focused: clickedSquare,
+    });
+
+    store.dispatch(
+      focusSquare({ focused: clickedSquare, arounds, availabilities })
+    );
   } else {
     const moveCallback = (directionedArounds) =>
       store.dispatch(
@@ -59,8 +59,7 @@ export const checkAvailables = ({ focused }) => {
     ...getAvailabilities(focused, arounds.Bottom),
   ];
 
-  store.dispatch(handleArounds({ arounds }));
-  store.dispatch(handleAvailabilities({ availabilities }));
+  return { arounds, availabilities };
 };
 
 export const destroyChecker = (moved, directionedArounds, all) => {
