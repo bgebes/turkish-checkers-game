@@ -5,7 +5,9 @@ import { Center, Image } from '@chakra-ui/react';
 import { getGameState, handleClickSquare } from '../../actions/actions';
 
 function Square({ bgColor, position, checker, dama }) {
-  const { focused, availabilities } = getGameState().squares;
+  const { status, squares } = getGameState();
+  const { signal } = status;
+  const { focused, availabilities } = squares;
 
   const colors = {
     focused: 'orange.200',
@@ -35,15 +37,19 @@ function Square({ bgColor, position, checker, dama }) {
     bg = bgColor;
   }
 
+  const action = () => {
+    handleClickSquare({ bgColor, position, checker, dama });
+  };
+
+  const onClick = signal !== 'Game Finished!' ? action : null;
+
   return (
     <Center
       bg={bg}
       h="75px"
       w="75px"
       border={bg === colors.available ? '1px' : null}
-      onClick={() => {
-        handleClickSquare({ bgColor, position, checker, dama });
-      }}
+      onClick={onClick}
     >
       <Image src={checkerIcon} />
     </Center>

@@ -1,4 +1,5 @@
 import { destroyChecker, upgradeToDama } from '../../actions/actions';
+import { initialSquares } from '../../assets/initials/initialSquares';
 import { checkObjectEqualities } from '../../utils/utils';
 
 export const GameReducers = {
@@ -71,5 +72,8 @@ export const GameReducers = {
     };
 
     state.movements = [];
+  },
+  finishGame: (state, _) => {
+    state.status.signal = 'Game Finished!';
   },
 };

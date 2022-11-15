@@ -20,5 +20,6 @@ export const GameSlice = createSlice({
   reducers: GameReducers,
 });
 
-export const { focusSquare, handleMovement, resetGame } = GameSlice.actions;
+export const { focusSquare, handleMovement, resetGame, finishGame } =
+  GameSlice.actions;
 export default GameSlice.reducer;

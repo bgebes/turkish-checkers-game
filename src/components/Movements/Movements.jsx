@@ -11,8 +11,12 @@ import {
   Text,
   Box,
 } from '@chakra-ui/react';
+import EndView from '../EndView/EndView';
 import ResetButton from '../ResetButton/ResetButton';
 import { getGameState } from '../../actions/actions';
+import { useEffect } from 'react';
+import { store } from '../../redux/store';
+import { finishGame } from '../../redux/Game/GameSlice';
 
 function Movements() {
   const { movements, status } = getGameState();
@@ -48,9 +52,33 @@ function Movements() {
     </TableContainer>
   );
 
+  const { all } = getGameState().squares;
+  const checkersCount = {
+    red: all.filter((s, _) => s.checker === 'red').length,
+    blue: all.filter((s, _) => s.checker === 'blue').length,
+  };
+
+  const isGameFinished = checkersCount.red === 0 || checkersCount.blue === 0;
+
+  let winner;
+  if (checkersCount.red === 0) {
+    winner = 'Blue';
+  } else if (checkersCount.blue === 0) {
+    winner = 'Red';
+  } else {
+    winner = 'Anyone yet';
+  }
+
+  useEffect(() => {
+    if (isGameFinished) {
+      store.dispatch(finishGame());
+    }
+  }, [isGameFinished]);
+
   return (
     <Box ps="8">
       <Stack>
+        {isGameFinished && <EndView winner={winner} />}
         <Stack direction="row" justify="space-between">
           <Text fontSize="xl" fontWeight="bold">
             Movements
