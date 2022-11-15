@@ -1,5 +1,9 @@
 import { getGameStateByStore } from '../actions/actions';
 
+export const checkObjectEqualities = (obj1, obj2) => {
+  return JSON.stringify(obj1) === JSON.stringify(obj2);
+};
+
 export function getAvailabilities(focused, arounds) {
   const temp = new Set();
   const enemyColor = focused.checker === 'red' ? 'blue' : 'red';
@@ -94,12 +98,44 @@ export function getArounds(square, direction) {
     : [];
 }
 
-export function movement(clickedSquare, callback) {
+export function movement(clickedSquare, moveCallback, destroyCallback) {
   const { x, y } = clickedSquare.position;
-  const { focused, availabilities } = getGameStateByStore().squares;
-  const isClickedSquareInArray = availabilities.some(
-    (a, _) => JSON.stringify(a) === JSON.stringify(clickedSquare)
+  const { focused, arounds, availabilities } = getGameStateByStore().squares;
+  const isClickedSquareInAvailabilities = availabilities.some((a, _) =>
+    checkObjectEqualities(a, clickedSquare)
   );
 
-  if (focused && isClickedSquareInArray) callback(x, y);
+  if (focused && isClickedSquareInAvailabilities) {
+    const direction = getDirection(focused, clickedSquare);
+    moveCallback(arounds[direction]);
+  }
+}
+
+export function getDirection(focused, clickedSquare) {
+  const Direction = {
+    Top: 'Top',
+    Bottom: 'Bottom',
+    Left: 'Left',
+    Right: 'Right',
+  };
+  const charArr = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+
+  const areSamePoint_X = focused.position.x === clickedSquare.position.x;
+
+  const positions_X = {
+    focused: charArr.indexOf(focused.position.x),
+    clickedSquare: charArr.indexOf(clickedSquare.position.x),
+  };
+
+  const isFocusedHigher_X = positions_X.focused > positions_X.clickedSquare;
+  const isFocusedHigher_Y = focused.position.y > clickedSquare.position.y;
+
+  let direction;
+  if (areSamePoint_X) {
+    direction = isFocusedHigher_Y ? Direction.Bottom : Direction.Top;
+  } else {
+    direction = isFocusedHigher_X ? Direction.Left : Direction.Right;
+  }
+
+  return direction;
 }

@@ -1,5 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { destroyChecker } from '../../actions/actions';
 import { initialSquares } from '../../assets/initials/initialSquares';
+import { checkObjectEqualities } from '../../utils/utils';
 
 export const GameSlice = createSlice({
   name: 'game',
@@ -10,6 +12,7 @@ export const GameSlice = createSlice({
     },
     squares: {
       focused: {},
+      arounds: {},
       availabilities: [],
       all: initialSquares,
     },
@@ -19,20 +22,22 @@ export const GameSlice = createSlice({
     focusSquare: (state, action) => {
       state.squares.focused = action.payload.focused;
     },
+    handleArounds: (state, action) => {
+      state.squares.arounds = action.payload.arounds;
+    },
     handleAvailabilities: (state, action) => {
       state.squares.availabilities = action.payload.availabilities;
     },
     handleMovement: (state, action) => {
-      const { x, y } = action.payload.newPosition;
+      const { moved, directionedArounds } = action.payload;
       const { focused } = state.squares;
-      const focusedPosition = focused.position;
 
-      const focusedSquare = state.squares.all.find(
-        (s, _) => JSON.stringify(s.position) == JSON.stringify(focusedPosition)
+      const focusedSquare = state.squares.all.find((s, _) =>
+        checkObjectEqualities(s.position, focused.position)
       );
 
-      const moveSquare = state.squares.all.find(
-        (s, _) => JSON.stringify(s.position) == JSON.stringify({ x, y })
+      const moveSquare = state.squares.all.find((s, _) =>
+        checkObjectEqualities(s, moved)
       );
 
       moveSquare.checker = focusedSquare.checker;
@@ -42,18 +47,28 @@ export const GameSlice = createSlice({
         moveSquare.dama,
       ];
 
+      const processResult = destroyChecker(
+        moved,
+        directionedArounds,
+        state.squares.all
+      );
+
       const { turn } = state.status;
 
       state.movements.push({
-        from: { x: focusedPosition.x, y: focusedPosition.y },
-        to: { x, y },
+        from: { x: focused.position.x, y: focused.position.y },
+        to: { x: moved.position.x, y: moved.position.y },
         author: turn,
+        destroy: processResult,
       });
 
-      state.status.turn = turn === 'Blue' ? 'Red' : 'Blue';
-      state.status.signal = `It's your turn ${state.status.turn}!`;
+      if (!processResult) {
+        state.status.turn = turn === 'Blue' ? 'Red' : 'Blue';
+        state.status.signal = `It's your turn ${state.status.turn}!`;
+      }
 
       state.squares.focused = {};
+      state.squares.arounds = {};
       state.squares.availabilities = [];
     },
     resetGame: (state, _) => {
@@ -73,6 +88,11 @@ export const GameSlice = createSlice({
   },
 });
 
-export const { focusSquare, handleAvailabilities, handleMovement, resetGame } =
-  GameSlice.actions;
+export const {
+  focusSquare,
+  handleArounds,
+  handleAvailabilities,
+  handleMovement,
+  resetGame,
+} = GameSlice.actions;
 export default GameSlice.reducer;

@@ -4,12 +4,17 @@ import {
   focusSquare,
   handleAvailabilities,
   handleMovement,
+  handleArounds,
 } from '../redux/Game/GameSlice';
-import { getArounds, getAvailabilities, movement } from '../utils/utils';
+import {
+  checkObjectEqualities,
+  getArounds,
+  getAvailabilities,
+  movement,
+} from '../utils/utils';
 
 export const getGameState = () => useSelector((state) => state.game);
 export const getGameStateByStore = () => store.getState().game;
-export const dispatch = store.dispatch;
 
 export const handleClickSquare = (clickedSquare) => {
   const { turn } = getGameStateByStore().status;
@@ -20,12 +25,15 @@ export const handleClickSquare = (clickedSquare) => {
   if (wrongClick1 || wrongClick2) return;
 
   if (clickedSquare.checker !== null) {
-    dispatch(focusSquare({ focused: clickedSquare }));
+    store.dispatch(focusSquare({ focused: clickedSquare }));
     checkAvailables({ focused: clickedSquare });
   } else {
-    movement(clickedSquare, (x, y) =>
-      dispatch(handleMovement({ newPosition: { x, y } }))
-    );
+    const moveCallback = (directionedArounds) =>
+      store.dispatch(
+        handleMovement({ moved: clickedSquare, directionedArounds })
+      );
+
+    movement(clickedSquare, moveCallback);
   }
 };
 
@@ -51,5 +59,22 @@ export const checkAvailables = ({ focused }) => {
     ...getAvailabilities(focused, arounds.Bottom),
   ];
 
-  dispatch(handleAvailabilities({ availabilities }));
+  store.dispatch(handleArounds({ arounds }));
+  store.dispatch(handleAvailabilities({ availabilities }));
+};
+
+export const destroyChecker = (moved, directionedArounds, all) => {
+  let counter = 0;
+
+  for (const _square of directionedArounds) {
+    if (checkObjectEqualities(_square, moved)) break;
+
+    const __square = all.find((s, _) => checkObjectEqualities(s, _square));
+    if (__square.checker !== null) {
+      __square.checker = null;
+      counter++;
+    }
+  }
+
+  return counter > 0;
 };
