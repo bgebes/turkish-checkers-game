@@ -10,6 +10,7 @@ function Square({ bgColor, position, checker, dama }) {
   const colors = {
     focused: 'orange.200',
     available: 'green.500',
+    dama: 'red.200',
   };
 
   let checkerIcon;
@@ -24,7 +25,9 @@ function Square({ bgColor, position, checker, dama }) {
   }
 
   let bg;
-  if (focused.position == position) {
+  if (dama) {
+    bg = colors.dama;
+  } else if (focused.position == position) {
     bg = colors.focused;
   } else if (availabilities.some((square) => square.position == position)) {
     bg = colors.available;

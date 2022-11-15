@@ -78,3 +78,11 @@ export const destroyChecker = (moved, directionedArounds, all) => {
 
   return counter > 0;
 };
+
+export const upgradeToDama = (moved, all) => {
+  const _square = all.find((s, _) => checkObjectEqualities(s, moved));
+
+  if (_square) {
+    _square.dama = true;
+  }
+};

@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { destroyChecker } from '../../actions/actions';
+import { destroyChecker, upgradeToDama } from '../../actions/actions';
 import { initialSquares } from '../../assets/initials/initialSquares';
 import { checkObjectEqualities } from '../../utils/utils';
 
@@ -42,10 +42,15 @@ export const GameSlice = createSlice({
 
       moveSquare.checker = focusedSquare.checker;
       focusedSquare.checker = null;
+
       [moveSquare.dama, focusedSquare.dama] = [
         focusedSquare.dama,
         moveSquare.dama,
       ];
+
+      if (moved.position.y === 8 && !focused.dama) {
+        upgradeToDama(moveSquare, state.squares.all);
+      }
 
       const processResult = destroyChecker(
         moved,
