@@ -29,7 +29,8 @@ export const GameReducers = {
       moveSquare.dama,
     ];
 
-    if (moved.position.y === 8 && !focused.dama) {
+    const enemyTop = focused.checker === 'blue' ? 8 : 1;
+    if (moved.position.y === enemyTop && !focused.dama) {
       upgradeToDama(moveSquare, state.squares.all);
     }
 

@@ -71,6 +71,7 @@ export const destroyChecker = (moved, directionedArounds, all) => {
     const __square = all.find((s, _) => checkObjectEqualities(s, _square));
     if (__square.checker !== null) {
       __square.checker = null;
+      __square.dama = false;
       counter++;
     }
   }
