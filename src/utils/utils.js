@@ -6,14 +6,15 @@ export const checkObjectEqualities = (obj1, obj2) => {
 
 export function getAvailabilities(focused, arounds) {
   const temp = new Set();
-  const enemyColor = focused.checker === 'red' ? 'blue' : 'red';
+  const ownColor = focused.checker;
+  const enemyColor = ownColor === 'red' ? 'blue' : 'red';
 
   const square = arounds[0],
     nextSquare = arounds[1];
 
   const isCurrentAvailable = square && square.checker === null;
   const isNextAvailable = nextSquare && nextSquare.checker === null;
-  const isOnOwnChecker = square && square.checker === focused.checker;
+  const isOnOwnChecker = square && square.checker === ownColor;
   const isOnEnemyChecker = square && square.checker === enemyColor;
 
   if (isOnOwnChecker) {
@@ -28,20 +29,22 @@ export function getAvailabilities(focused, arounds) {
     }
   } else {
     for (const [_index, _square] of arounds.entries()) {
+      if (_square && _square.checker === ownColor) break;
+
       const _nextSquare = arounds[_index + 1];
 
       const positiveStateBasic = _square.checker === null;
       const positiveStateAdvanced =
         _square &&
-        _square.checker !== null &&
+        _square.checker === enemyColor &&
         _nextSquare &&
         _nextSquare.checker === null;
 
       const undesiredState =
         _square &&
-        _square.checker !== null &&
+        _square.checker === enemyColor &&
         _nextSquare &&
-        _nextSquare.checker !== null;
+        _nextSquare.checker === enemyColor;
 
       if (undesiredState) break;
 
